@@ -7,8 +7,13 @@ likelihoods, avoiding the need to specify within-study correlation structures.
 This is particularly useful for multi-arm trials where the correlation structure
 may be complex or unknown.
 
+NOTE: This is an experimental implementation. Validation studies are in progress.
+
 References:
-    Welton et al. (2022, 2025) - Composite likelihood methods for CNMA
+    Welton NJ, et al. (2009). Mixed treatment comparison meta-analysis of complex
+    interventions. American Journal of Epidemiology, 169(9):1158-1165.
+
+    [Composite likelihood extension - validation in progress]
 """
 
 from typing import Dict, List, Optional, Any, Union, Tuple
