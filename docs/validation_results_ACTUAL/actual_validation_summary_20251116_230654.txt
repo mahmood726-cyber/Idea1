@@ -1,0 +1,40 @@
+CNMA PLATFORM - ACTUAL VALIDATION STUDY
+================================================================================
+
+Date: 2025-11-16 23:06:54
+Replications: 5
+MCMC: 500 samples, 500 warmup, 2 chains
+
+TRUE PARAMETERS:
+  β₁ = 0.5
+  β₂ = -0.3
+  β₃ = 0.4
+  τ  = 0.15
+
+BIAS:
+  β₁: -0.6685
+  β₂: 0.3739
+  β₃: -0.6843
+  Mean absolute: 0.5756
+
+COVERAGE:
+  β₁: 0.0%
+  β₂: 0.0%
+  β₃: 0.0%
+  Mean: 0.0%
+
+CONVERGENCE:
+  Success: 0.0%
+  Mean R-hat: 1.0220
+  Mean ESS: 139
+
+MULTI-ARM:
+  Total studies: 315
+  Per replication: 63.0
+
+ASSESSMENT:
+  ✗ Bias < 0.05 for all parameters
+  ✗ Coverage > 85%
+  ✗ All replications converged
+
+⚠ VALIDATION CONCERNS - Review results
