@@ -145,6 +145,13 @@ def _create_smoking_cessation_data() -> pd.DataFrame:
     }
 
     # Interaction effects (synergies/antagonisms)
+    # NOTE: These interaction effects are INTENTIONALLY included to test
+    # robustness of the additive model to violations of the additivity assumption.
+    # When fitting an additive model to this data:
+    # - Component effects (β) will be estimated with slight bias
+    # - This demonstrates real-world scenario where additivity may not hold perfectly
+    # - For analyses where strong interactions are expected, use InteractionModel instead
+    # - This serves as a model misspecification test in validation studies
     gamma_true = {
         ('NRT', 'Counseling'): 0.15,  # Positive synergy
         ('Counseling', 'Group Support'): -0.08,  # Slight antagonism
@@ -339,6 +346,7 @@ def _create_hypertension_data() -> pd.DataFrame:
         'Medication': -8.2,
     }
 
+    # Interaction effect (intentional - see smoking_cessation for explanation)
     gamma_true = {
         ('Diet', 'Exercise'): -1.2,  # Small synergy
     }
@@ -430,6 +438,7 @@ def _create_depression_data() -> pd.DataFrame:
         'Exercise': -0.42,
     }
 
+    # Interaction effect (intentional - see smoking_cessation for explanation)
     gamma_true = {
         ('CBT', 'Medication'): -0.10,  # Small synergy
     }
