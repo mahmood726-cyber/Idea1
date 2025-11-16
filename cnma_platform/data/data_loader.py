@@ -144,11 +144,9 @@ def _create_smoking_cessation_data() -> pd.DataFrame:
         'Group Support': 0.38,
     }
 
-    # Interaction effects (synergies/antagonisms)
-    gamma_true = {
-        ('NRT', 'Counseling'): 0.15,  # Positive synergy
-        ('Counseling', 'Group Support'): -0.08,  # Slight antagonism
-    }
+    # NO interaction effects - this is for ADDITIVE model validation
+    # Interaction effects would violate the additivity assumption
+    gamma_true = {}
 
     # Between-study heterogeneity
     tau_true = 0.12
@@ -339,9 +337,8 @@ def _create_hypertension_data() -> pd.DataFrame:
         'Medication': -8.2,
     }
 
-    gamma_true = {
-        ('Diet', 'Exercise'): -1.2,  # Small synergy
-    }
+    # No interactions for additive model
+    gamma_true = {}
 
     tau_true = 1.5
 
@@ -430,9 +427,8 @@ def _create_depression_data() -> pd.DataFrame:
         'Exercise': -0.42,
     }
 
-    gamma_true = {
-        ('CBT', 'Medication'): -0.10,  # Small synergy
-    }
+    # No interactions for additive model
+    gamma_true = {}
 
     tau_true = 0.18
 

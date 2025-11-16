@@ -6,8 +6,7 @@ A comprehensive Python platform for Component Network Meta-Analysis, implementin
 
 ### Core Statistical Models
 - **Additive CNMA Model**: Assumes component effects combine additively
-- **Interaction CNMA Model**: Models synergistic/antagonistic effects between components
-- **Composite Likelihood Approach**: Avoids restrictive within-study correlation assumptions (Welton et al., 2022, 2025)
+- **Interaction CNMA Model**: Models synergistic/antagonistic effects between components (planned future work)
 
 ### Automated Component Identification
 - NLP-based extraction of intervention components from text descriptions
@@ -45,8 +44,7 @@ data = load_example_data("smoking_cessation")
 # Run additive CNMA
 analysis = CNMAAnalysis(
     data=data,
-    model_type="additive",
-    likelihood="composite"
+    model_type="additive"
 )
 
 # Fit model
@@ -79,18 +77,17 @@ CNMA extends standard network meta-analysis (NMA) to interventions with multiple
 θ_jk = Σ β_c × I(component c in intervention k but not j)
 ```
 
-#### 2. Interaction Model
+#### 2. Interaction Model (Planned)
 ```
 θ_jk = Σ β_c × I_c + Σ γ_cd × I_c × I_d
 ```
-
-#### 3. Composite Likelihood
-Maximizes the product of arm-level likelihoods, avoiding need to specify within-study correlation structure.
+Models synergistic or antagonistic interactions between components.
 
 ### References
 
-- Welton NJ, Caldwell DM, Adamopoulos E, Vedhara K. (2022). Mixed treatment comparison meta-analysis of complex interventions: psychological interventions in coronary heart disease. *Am J Epidemiol*, 178(3):368-376.
-- Updated methodology (2025) - incorporating composite likelihood approaches
+- **Welton NJ, Caldwell DM, Adamopoulos E, Vedhara K. (2009)**. Mixed treatment comparison meta-analysis of complex interventions: psychological interventions in coronary heart disease. *American Journal of Epidemiology*, 169(9):1158-1165.
+- **Dias S, Sutton AJ, Ades AE, Welton NJ. (2013)**. Evidence synthesis for decision making 2: a generalized linear modeling framework for pairwise and network meta-analysis of randomized controlled trials. *Medical Decision Making*, 33(5):607-617.
+- **Rücker G, Petropoulou M, Schwarzer G. (2020)**. Component network meta-analysis compared to a matching method in a disconnected network: a case study. *Biometrical Journal*, 62(2):447-461.
 
 ## Project Structure
 
@@ -109,10 +106,9 @@ cnma_platform/
 
 See the `examples/` directory for comprehensive tutorials:
 - `01_basic_additive_cnma.py` - Basic additive model
-- `02_interaction_model.py` - Modeling component interactions
-- `03_component_extraction.py` - Automated component identification
-- `04_composite_likelihood.py` - Composite likelihood approach
-- `05_advanced_visualization.py` - Creating publication-ready figures
+- `02_interaction_model.py` - Modeling component interactions (planned)
+- `03_composite_likelihood.py` - Composite likelihood approach (planned)
+- `04_automated_component_extraction.py` - Automated component identification
 
 ## Requirements
 

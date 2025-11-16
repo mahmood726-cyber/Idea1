@@ -80,8 +80,10 @@ where $\Delta I_{jkc} = I_{kc} - I_{jc}$ is the component difference.
 The model assumes **additive combination** of component effects:
 
 $$
-\mathbb{E}[Y | \text{components } \\{c_1, c_2\\}] = \mathbb{E}[Y | \text{component } c_1] + \mathbb{E}[Y | \text{component } c_2]
+\mathbb{E}[Y | \text{components } \\{c_1, c_2\\}] = \mathbb{E}[Y | \emptyset] + \beta_1 + \beta_2
 $$
+
+where $\mathbb{E}[Y | \emptyset]$ is the baseline effect (no components) and $\beta_i$ are component effects.
 
 This implies no synergistic or antagonistic interactions between components.
 
@@ -423,6 +425,8 @@ $$
 \nu_s \sim \mathcal{N}(0, \tau^2)
 $$
 
+**Assumption**: Observation error and study-specific effect are independent.
+
 The marginal distribution is:
 $$
 \begin{aligned}
@@ -432,16 +436,18 @@ p(y_s | \theta, \tau) &= \int p(y_s | \nu_s, \theta) p(\nu_s | \tau) d\nu_s \\
 \end{aligned}
 $$
 
-by properties of normal distributions.
+by properties of normal distributions and independence of errors.
 
-### A.2 Posterior for Additive Model (Conjugate Case)
+### A.2 Conditional Posterior for Component Effects (Fixed τ)
 
-With conjugate priors:
+**Note**: This derivation assumes $\tau$ is **known** (fixed), which is not the case in our full Bayesian model where $\tau$ has a HalfNormal prior. This is shown for pedagogical purposes only.
+
+With Normal priors on $\beta$:
 $$
 \beta_c \sim \mathcal{N}(0, \sigma_\beta^2)
 $$
 
-And known $\tau$, the posterior is:
+And **fixed (known)** $\tau$, the conditional posterior for $\boldsymbol{\beta}$ is:
 $$
 \boldsymbol{\beta} | \mathbf{y}, \tau \sim \mathcal{N}(\boldsymbol{\mu}_{\text{post}}, \boldsymbol{\Sigma}_{\text{post}})
 $$
@@ -455,6 +461,8 @@ $$
 $$
 
 with $\mathbf{X}$ the component difference matrix and $\boldsymbol{\Omega} = \text{diag}(\text{SE}_s^2 + \tau^2)$.
+
+**In practice**, we use MCMC (NUTS) to sample from the full joint posterior of $(\boldsymbol{\beta}, \tau)$ since the HalfNormal prior on $\tau$ makes the full posterior non-conjugate.
 
 ---
 

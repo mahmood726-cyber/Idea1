@@ -221,13 +221,14 @@ class AdditiveModel(BaseCNMAModel):
             else:
                 tau = pm.HalfNormal('tau', sigma=1.0)
 
-            # Study-specific random effects (one per study-contrast)
+            # Study-specific random effects (ONE per study, not per contrast)
             # This properly models between-study heterogeneity
+            # For multi-arm trials, contrasts from the same study share the same nu
             nu = pm.Normal(
                 'nu',
                 mu=0,
                 sigma=tau,
-                shape=n_contrasts
+                shape=n_studies
             )
 
             # Pooled relative effects based on component composition
@@ -238,10 +239,10 @@ class AdditiveModel(BaseCNMAModel):
             )
 
             # Study-specific relative effects
-            # δ_sk = θ_jk + ν_sk
+            # δ_sk = θ_jk + ν_s (indexed by study, not contrast)
             delta = pm.Deterministic(
                 'delta',
-                theta + nu
+                theta + nu[study_idx]
             )
 
             # Likelihood
@@ -362,8 +363,9 @@ class AdditiveModel(BaseCNMAModel):
         # Warn if convergence issues
         if not convergence['converged']:
             print("\nWARNING: Convergence issues detected!")
-            print(f"  - Parameters with Rhat > 1.1: {convergence['n_high_rhat']}")
-            print(f"  - Parameters with low ESS: {convergence['n_low_ess']}")
+            print(f"  - Parameters with Rhat > 1.01: {convergence['n_high_rhat']}")
+            print(f"  - Parameters with low ESS (bulk): {convergence['n_low_ess_bulk']}")
+            print(f"  - Parameters with low ESS (tail): {convergence['n_low_ess_tail']}")
             print("  Consider increasing n_warmup or n_samples.")
 
         return self.results
@@ -372,6 +374,8 @@ class AdditiveModel(BaseCNMAModel):
         """
         Check MCMC convergence using Rhat and effective sample size.
 
+        Uses modern standards: Rhat < 1.01 (Vehtari et al. 2021)
+
         Returns
         -------
         diagnostics : dict
@@ -379,24 +383,29 @@ class AdditiveModel(BaseCNMAModel):
         """
         summary = az.summary(self.trace)
 
-        # Check Rhat (should be < 1.01, warning if > 1.05)
+        # Check Rhat (modern standard: < 1.01)
         rhat_values = summary['r_hat'].dropna()
-        n_high_rhat = (rhat_values > 1.1).sum()
+        n_high_rhat = (rhat_values > 1.01).sum()
         max_rhat = rhat_values.max() if len(rhat_values) > 0 else np.nan
 
-        # Check effective sample size (should be > 400 for reliable inference)
+        # Check effective sample size (bulk and tail)
         ess_bulk = summary['ess_bulk'].dropna()
-        n_low_ess = (ess_bulk < 400).sum()
-        min_ess = ess_bulk.min() if len(ess_bulk) > 0 else np.nan
+        ess_tail = summary['ess_tail'].dropna()
+        n_low_ess_bulk = (ess_bulk < 400).sum()
+        n_low_ess_tail = (ess_tail < 400).sum()
+        min_ess_bulk = ess_bulk.min() if len(ess_bulk) > 0 else np.nan
+        min_ess_tail = ess_tail.min() if len(ess_tail) > 0 else np.nan
 
-        converged = (n_high_rhat == 0) and (n_low_ess == 0)
+        converged = (n_high_rhat == 0) and (n_low_ess_bulk == 0) and (n_low_ess_tail == 0)
 
         return {
             'converged': converged,
             'max_rhat': max_rhat,
             'n_high_rhat': n_high_rhat,
-            'min_ess_bulk': min_ess,
-            'n_low_ess': n_low_ess,
+            'min_ess_bulk': min_ess_bulk,
+            'min_ess_tail': min_ess_tail,
+            'n_low_ess_bulk': n_low_ess_bulk,
+            'n_low_ess_tail': n_low_ess_tail,
         }
 
     def get_component_effects(self) -> pd.DataFrame:
