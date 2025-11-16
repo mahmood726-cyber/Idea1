@@ -89,8 +89,9 @@ Maximizes the product of arm-level likelihoods, avoiding need to specify within-
 
 ### References
 
-- Welton NJ, Caldwell DM, Adamopoulos E, Vedhara K. (2022). Mixed treatment comparison meta-analysis of complex interventions: psychological interventions in coronary heart disease. *Am J Epidemiol*, 178(3):368-376.
-- Updated methodology (2025) - incorporating composite likelihood approaches
+- Welton NJ, Caldwell DM, Adamopoulos E, Vedhara K. (2009). Mixed treatment comparison meta-analysis of complex interventions: psychological interventions in coronary heart disease. *American Journal of Epidemiology*, 169(9):1158-1165.
+- Dias S, Welton NJ, Caldwell DM, Ades AE. (2010). Checking consistency in mixed treatment comparison meta-analysis. *Statistics in Medicine*, 29(7-8):932-944.
+- Rücker G, Petropoulou M, Schwarzer G. (2020). Network meta-analysis of multicomponent interventions. *Biometrical Journal*, 62(3):808-821.
 
 ## Project Structure
 
