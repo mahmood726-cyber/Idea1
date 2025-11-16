@@ -1,0 +1,47 @@
+# Core scientific computing
+numpy>=1.24.0
+scipy>=1.10.0
+pandas>=2.0.0
+
+# Bayesian inference
+pymc>=5.10.0
+arviz>=0.17.0
+pytensor>=2.18.0
+
+# Statistical modeling
+statsmodels>=0.14.0
+scikit-learn>=1.3.0
+
+# Network analysis
+networkx>=3.0
+
+# NLP for component extraction
+spacy>=3.7.0
+scikit-learn>=1.3.0
+transformers>=4.35.0
+sentence-transformers>=2.2.0
+
+# Optimization
+numdifftools>=0.9.41
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.17.0
+graphviz>=0.20.0
+
+# Data handling
+openpyxl>=3.1.0
+xlrd>=2.0.1
+
+# Utilities
+tqdm>=4.66.0
+pyyaml>=6.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Documentation
+sphinx>=7.0.0
+sphinx-rtd-theme>=1.3.0
