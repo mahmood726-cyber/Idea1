@@ -5,9 +5,9 @@ A comprehensive Python platform for Component Network Meta-Analysis, implementin
 ## Features
 
 ### Core Statistical Models
-- **Additive CNMA Model**: Assumes component effects combine additively
-- **Interaction CNMA Model**: Models synergistic/antagonistic effects between components
-- **Composite Likelihood Approach**: Avoids restrictive within-study correlation assumptions (Welton et al., 2022, 2025)
+- **Additive CNMA Model**: Assumes component effects combine additively (fully implemented)
+- **Interaction CNMA Model**: Models synergistic/antagonistic effects between components (in development)
+- **Composite Likelihood Approach**: Documented methodology for avoiding within-study correlation assumptions (implementation planned)
 
 ### Automated Component Identification
 - NLP-based extraction of intervention components from text descriptions
@@ -15,11 +15,12 @@ A comprehensive Python platform for Component Network Meta-Analysis, implementin
 - Support for complex multi-component interventions
 
 ### Advanced Analytics
-- Bayesian inference using PyMC
-- Frequentist composite likelihood estimation
+- Bayesian inference using PyMC (NUTS sampler)
+- Convergence diagnostics (R̂, ESS)
 - Model comparison and selection (DIC, WAIC, LOO)
-- Component importance ranking
-- Intervention ranking and clustering
+- Component effect estimation with credible intervals
+- Treatment ranking (SUCRA)
+- Posterior predictive checks
 
 ### Visualization
 - Interactive network plots
@@ -84,35 +85,37 @@ CNMA extends standard network meta-analysis (NMA) to interventions with multiple
 θ_jk = Σ β_c × I_c + Σ γ_cd × I_c × I_d
 ```
 
-#### 3. Composite Likelihood
+#### 3. Composite Likelihood (Documented, implementation planned)
 Maximizes the product of arm-level likelihoods, avoiding need to specify within-study correlation structure.
 
 ### References
 
-- Welton NJ, Caldwell DM, Adamopoulos E, Vedhara K. (2022). Mixed treatment comparison meta-analysis of complex interventions: psychological interventions in coronary heart disease. *Am J Epidemiol*, 178(3):368-376.
-- Updated methodology (2025) - incorporating composite likelihood approaches
+**Core CNMA Methodology:**
+- Welton NJ, et al. (2009). Mixed treatment comparison meta-analysis of complex interventions: psychological interventions in coronary heart disease. *American Journal of Epidemiology*, 169(9):1158-1165.
+- Rücker G, et al. (2020). Component network meta-analysis compared to a matching method in a disconnected network: a case study. *Biometrical Journal*, 62(2):447-461.
+
+**Network Meta-Analysis Foundations:**
+- Dias S, et al. (2013). Evidence synthesis for decision making 2: a generalized linear modeling framework for pairwise and network meta-analysis of randomized controlled trials. *Medical Decision Making*, 33(5):607-617.
+- Dias S, et al. (2010). Checking consistency in mixed treatment comparison meta-analysis. *Statistics in Medicine*, 29(7-8):932-944.
 
 ## Project Structure
 
 ```
 cnma_platform/
-├── models/           # Statistical models (additive, interaction, composite likelihood)
-├── nlp/             # Component extraction and NLP utilities
-├── data/            # Data loading, validation, network construction
-├── inference/       # Bayesian and frequentist inference engines
-├── visualization/   # Plotting and visualization tools
-├── utils/           # Helper functions and utilities
-└── examples/        # Example datasets and analyses
+├── models/           # Statistical models (additive, interaction)
+├── data/            # Data loading, validation, and simulation
+├── diagnostics/     # Node-splitting and consistency checking
+├── validation/      # Parameter recovery and simulation studies
+├── nlp/             # Component extraction (in development)
+├── visualization/   # Plotting tools (in development)
+└── utils/           # Helper functions
 ```
 
-## Examples
+## Documentation
 
-See the `examples/` directory for comprehensive tutorials:
-- `01_basic_additive_cnma.py` - Basic additive model
-- `02_interaction_model.py` - Modeling component interactions
-- `03_component_extraction.py` - Automated component identification
-- `04_composite_likelihood.py` - Composite likelihood approach
-- `05_advanced_visualization.py` - Creating publication-ready figures
+- `docs/MATHEMATICAL_SPECIFICATION.md` - Complete mathematical formulation and theory
+- `docs/CHANGES_V2.md` - Summary of major revisions and improvements
+- `tests/` - Unit and integration tests
 
 ## Requirements
 

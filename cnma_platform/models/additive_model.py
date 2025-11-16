@@ -97,6 +97,16 @@ class AdditiveModel(BaseCNMAModel):
 
         For multi-arm trials, uses the first arm as reference within each study.
 
+        IMPORTANT: This approximates SE for contrasts assuming independence
+        between arms. While the model accounts for between-study correlation
+        via shared study random effects, it does NOT explicitly model
+        within-study arm correlation. This is a known limitation.
+
+        Future versions may implement:
+        - Multivariate normal likelihood with correlation matrix
+        - Marginalization over baseline effects
+        - Contrast-based approach with explicit correlation structure
+
         Returns
         -------
         contrast_data : pd.DataFrame
@@ -221,13 +231,14 @@ class AdditiveModel(BaseCNMAModel):
             else:
                 tau = pm.HalfNormal('tau', sigma=1.0)
 
-            # Study-specific random effects (one per study-contrast)
+            # Study-specific random effects (one per STUDY, not per contrast)
             # This properly models between-study heterogeneity
+            # For multi-arm trials, all contrasts from the same study share the same nu
             nu = pm.Normal(
                 'nu',
                 mu=0,
                 sigma=tau,
-                shape=n_contrasts
+                shape=n_studies  # One random effect per study
             )
 
             # Pooled relative effects based on component composition
@@ -238,10 +249,11 @@ class AdditiveModel(BaseCNMAModel):
             )
 
             # Study-specific relative effects
-            # δ_sk = θ_jk + ν_sk
+            # δ_sk = θ_jk + ν_s (using study_idx to map contrasts to studies)
+            # In multi-arm trials, multiple contrasts share the same study random effect
             delta = pm.Deterministic(
                 'delta',
-                theta + nu
+                theta + nu[study_idx]  # Index nu by study, not contrast
             )
 
             # Likelihood
@@ -362,9 +374,9 @@ class AdditiveModel(BaseCNMAModel):
         # Warn if convergence issues
         if not convergence['converged']:
             print("\nWARNING: Convergence issues detected!")
-            print(f"  - Parameters with Rhat > 1.1: {convergence['n_high_rhat']}")
-            print(f"  - Parameters with low ESS: {convergence['n_low_ess']}")
-            print("  Consider increasing n_warmup or n_samples.")
+            print(f"  - Parameters with Rhat > 1.01: {convergence['n_high_rhat']}")
+            print(f"  - Parameters with low ESS (< 400): {convergence['n_low_ess']}")
+            print("  Consider increasing n_warmup, n_samples, or target_accept.")
 
         return self.results
 
@@ -379,9 +391,9 @@ class AdditiveModel(BaseCNMAModel):
         """
         summary = az.summary(self.trace)
 
-        # Check Rhat (should be < 1.01, warning if > 1.05)
+        # Check Rhat (should be < 1.01, following Vehtari et al. 2021)
         rhat_values = summary['r_hat'].dropna()
-        n_high_rhat = (rhat_values > 1.1).sum()
+        n_high_rhat = (rhat_values > 1.01).sum()
         max_rhat = rhat_values.max() if len(rhat_values) > 0 else np.nan
 
         # Check effective sample size (should be > 400 for reliable inference)

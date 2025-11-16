@@ -79,12 +79,14 @@ def run_parameter_recovery_study(
         if (rep + 1) % 10 == 0:
             print(f"\nReplication {rep + 1}/{n_replications}...")
 
-        # Simulate data with known parameters
+        # Simulate data with known parameters (including multi-arm trials)
         data, component_matrix, components = simulate_cnma_data(
             n_components=n_components,
             n_studies_per_comparison=n_studies_per_comparison,
             beta_true=beta_true,
             tau_true=tau_true,
+            include_multi_arm=True,  # Include multi-arm trials
+            prop_multi_arm=0.3,  # 30% of studies are 3-arm
             random_seed=random_seed + rep
         )
 
@@ -95,11 +97,11 @@ def run_parameter_recovery_study(
             model.component_matrix = component_matrix
             model.n_components = n_components
 
-            # Fit with reduced samples for speed
+            # Fit with proper number of chains for convergence diagnostics
             model.fit(
                 n_samples=n_samples,
                 n_warmup=n_warmup,
-                n_chains=2,
+                n_chains=4,  # Use 4 chains for proper convergence assessment
                 random_seed=random_seed + rep
             )
 

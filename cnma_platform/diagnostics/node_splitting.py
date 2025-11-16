@@ -1,8 +1,16 @@
 """
 Node-splitting for assessing consistency in CNMA.
 
-Node-splitting (Dias et al., 2010) compares direct and indirect evidence
-for specific treatment comparisons to assess network consistency.
+IMPORTANT: This implementation uses a simplified "leave-one-out" approach
+rather than true node-splitting. It compares:
+1. Direct evidence: meta-analysis of direct comparisons only
+2. Indirect evidence: CNMA model fitted WITHOUT the direct comparisons
+
+True node-splitting (Dias et al., 2010) estimates both θ_direct and θ_indirect
+simultaneously in one model. This is planned for future implementation.
+
+Current approach provides a conservative consistency check but may
+underestimate indirect evidence precision.
 
 References:
     Dias, S., et al. (2010). Checking consistency in mixed treatment comparison
@@ -19,13 +27,17 @@ from cnma_platform.models.additive_model import AdditiveModel
 
 class NodeSplittingAnalysis:
     """
-    Perform node-splitting analysis to assess consistency.
+    Perform leave-one-out consistency check (simplified node-splitting).
 
-    For each comparison with both direct and indirect evidence, this fits two models:
-    1. Consistency model: assumes consistency between direct and indirect evidence
-    2. Inconsistency model: allows different estimates for direct vs indirect evidence
+    For each comparison with both direct and indirect evidence:
+    1. Direct estimate: Meta-analysis of only the direct comparisons
+    2. Indirect estimate: CNMA fitted without the direct comparisons
 
-    The difference (inconsistency factor) indicates potential inconsistency.
+    The difference indicates potential inconsistency.
+
+    NOTE: This is a simplified approach. True node-splitting estimates
+    both parameters simultaneously. Use results as screening tool for
+    potential inconsistency, not definitive test.
     """
 
     def __init__(self, data: pd.DataFrame, component_matrix: np.ndarray, components: List[str]):
