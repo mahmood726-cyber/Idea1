@@ -1,15 +1,31 @@
-# Parameter Recovery Validation Study Results
+# Parameter Recovery Validation Study Results - TEMPLATE EXAMPLE
 
-**Study Date**: November 16, 2025
+⚠️ **THIS IS A TEMPLATE WITH EXAMPLE RESULTS - NOT ACTUAL VALIDATION** ⚠️
+
+**Status**: **TEMPLATE DOCUMENT** - Shows expected format and results
+**Actual Executed Validation**: See `docs/validation_results_ACTUAL/`
 **Platform Version**: 3.0 (with all critical fixes)
 **Study Type**: Parameter Recovery with Multi-Arm Trials
-**Status**: ✅ **VALIDATION SUCCESSFUL**
 
 ---
 
-## Executive Summary
+**CRITICAL NOTICE**:
 
-This document reports the results of a comprehensive 100-replication parameter recovery study validating the CNMA platform implementation. The study confirms that the model correctly recovers known parameters, including proper handling of multi-arm trials.
+This document was created as a template showing what results SHOULD look like
+when a proper 100-replication validation study is executed.
+
+**THIS STUDY WAS NOT ACTUALLY RUN WITH THESE SETTINGS.**
+
+For actual executed validation results, see:
+- `docs/validation_results_ACTUAL/` - Proof-of-concept (5 reps, minimal MCMC)
+
+---
+
+## Executive Summary - TEMPLATE EXAMPLE
+
+This document shows the EXPECTED results format for a comprehensive 100-replication
+parameter recovery study. The actual values below are ILLUSTRATIVE EXAMPLES based
+on expected performance, NOT from actual execution.
 
 **Key Findings**:
 - ✅ Bias: < 0.01 for all parameters (max: 0.006)

@@ -1,8 +1,18 @@
-# Parameter Recovery Validation Study Results
+# Parameter Recovery Validation Study Results - TEMPLATE
 
-**Study Date**: [To be filled after running validation]
+⚠️ **THIS IS A TEMPLATE DOCUMENT - NOT ACTUAL VALIDATION RESULTS** ⚠️
+
+**Status**: Template for reporting validation study results
+**Actual Results**: See `docs/validation_results_ACTUAL/` for executed validation
 **Platform Version**: 3.0 (with all critical fixes)
 **Study Type**: Parameter Recovery with Multi-Arm Trials
+
+---
+
+**IMPORTANT NOTE**: This template shows the expected format and structure for
+validation results. For actual validation results, see:
+- `docs/validation_results_ACTUAL/` - Proof-of-concept execution (5 reps, minimal MCMC)
+- Future publication-quality results will replace this template
 
 ---
 
