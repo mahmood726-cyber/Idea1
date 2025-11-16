@@ -20,8 +20,8 @@ This document provides formal mathematical specifications for all models impleme
 
 **Contrast-based format** (recommended):
 - $s = 1, \ldots, S$: studies
-- $j_s, k_s$: treatments compared in study $s$ (baseline and comparison)
-- $y_s$: observed relative effect (log-OR, SMD, MD, log-RR, etc.)
+- $j_s, k_s$: treatments compared in study $s$ (where $j_s$ = baseline, $k_s$ = comparison)
+- $y_s$: observed relative effect comparing $k_s$ vs $j_s$ (log-OR, SMD, MD, log-RR, etc.)
 - $\text{SE}_s$: standard error of $y_s$
 
 **Arm-based format**:
@@ -39,6 +39,8 @@ This document provides formal mathematical specifications for all models impleme
 - $\boldsymbol{\gamma}$: interaction effect parameters (interaction model only)
 - $\tau$: between-study heterogeneity standard deviation
 - $\nu_s$: study-specific random effect
+- $\delta_s$: true study-specific relative effect for comparison $(j_s, k_s)$ in study $s$
+  - More explicitly: $\delta_{s,j_sk_s}$ or $\delta_{s}^{(j_s,k_s)}$, abbreviated as $\delta_s$ when context is clear
 
 ---
 
@@ -58,22 +60,22 @@ y_s &\sim \mathcal{N}(\delta_s, \text{SE}_s^2) \\
 $$
 
 **Interpretation**:
-- $y_s$: observed relative effect in study $s$
-- $\delta_s$: true study-specific relative effect
-- $\theta_{j_s k_s}$: pooled relative effect of $k$ vs $j$ based on component composition
+- $y_s$: observed relative effect in study $s$ (comparing $k_s$ vs $j_s$)
+- $\delta_s$: true study-specific relative effect for comparison $(j_s, k_s)$
+- $\theta_{j_s k_s}$: pooled relative effect of $k_s$ vs $j_s$ based on component composition
 - $\beta_c$: additive effect of component $c$
 - $\nu_s$: study-specific deviation from pooled effect
 - $\tau$: standard deviation of between-study effects
 
 ### Component Effect
 
-The relative effect between any two treatments $j$ and $k$ is:
+The relative effect between any two treatments $j$ (baseline) and $k$ (comparison) is:
 
 $$
 \theta_{jk} = \sum_{c \in C} \beta_c \cdot \Delta I_{jkc}
 $$
 
-where $\Delta I_{jkc} = I_{kc} - I_{jc}$ is the component difference.
+where $\Delta I_{jkc} = I_{kc} - I_{jc}$ is the component difference (comparison minus baseline).
 
 ### Additivity Assumption
 
@@ -106,6 +108,7 @@ $$
 where:
 - $\gamma_{cc'}$: interaction effect between components $c$ and $c'$
 - $\mathcal{I}_{j}^{cc'} = 1$ if both components $c$ and $c'$ are in treatment $j$, else 0
+- Indexing follows same convention as additive model: $k_s$ (comparison) minus $j_s$ (baseline)
 
 ### Interpretation of Interaction Terms
 
@@ -115,11 +118,13 @@ where:
 
 ### Higher-Order Interactions
 
-The model can be extended to three-way and higher-order interactions:
+The model can be extended to three-way and higher-order interactions. For the pooled effect comparing treatment $k$ (comparison) vs $j$ (baseline):
 
 $$
 \theta_{jk} = \sum_c \beta_c \Delta I_{jkc} + \sum_{c < c'} \gamma_{cc'} \Delta \mathcal{I}_{jk}^{cc'} + \sum_{c < c' < c''} \gamma_{cc'c''} \Delta \mathcal{I}_{jk}^{cc'c''} + \ldots
 $$
+
+where $\Delta \mathcal{I}_{jk}^{cc'} = \mathcal{I}_{k}^{cc'} - \mathcal{I}_{j}^{cc'}$ follows the same indexing convention (comparison minus baseline).
 
 However, higher-order terms are rarely estimable and should be used sparingly.
 
