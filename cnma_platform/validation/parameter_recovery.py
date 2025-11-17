@@ -93,8 +93,31 @@ def run_parameter_recovery_study(
         # Fit model
         try:
             model = AdditiveModel(data=data, data_format="contrast")
+
+            # CRITICAL FIX: Reorder component_matrix to match model's sorted treatment order
+            # The model extracts treatments from data and sorts them,
+            # but component_matrix from simulation is in a different order
+
+            # Get treatment names from simulation (same order as component_matrix rows)
+            treatments_sim = []
+            treatments_sim.append(set())  # Control
+            for i in range(n_components):
+                treatments_sim.append({components[i]})
+            for i in range(n_components):
+                for j in range(i + 1, n_components):
+                    treatments_sim.append({components[i], components[j]})
+
+            treatment_names_sim = ['+'.join(sorted(t)) if t else 'Control' for t in treatments_sim]
+
+            # Create mapping from model's sorted order to simulation order
+            reordered_component_matrix = np.zeros_like(component_matrix)
+            for model_idx, treatment_name in enumerate(model.treatments):
+                sim_idx = treatment_names_sim.index(treatment_name)
+                reordered_component_matrix[model_idx, :] = component_matrix[sim_idx, :]
+
+            # Now set the correctly ordered component_matrix
             model.components = components
-            model.component_matrix = component_matrix
+            model.component_matrix = reordered_component_matrix
             model.n_components = n_components
 
             # Fit with proper number of chains for convergence diagnostics
