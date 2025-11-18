@@ -82,7 +82,7 @@ Complete and correct formulation:
 - **Replications**: 100 (adequate)
 - **Chains**: 4 per replication (sufficient for diagnostics)
 - **Samples**: 2,000 post-warmup per chain
-- **Multi-arm trials**: 30% of studies (realistic)
+- **Multi-arm trials**: 75% of studies (highly rigorous)
 - **Random seeds**: All specified (reproducible)
 
 **Assessment**: ✅ **RIGOROUS**

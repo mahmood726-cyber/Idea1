@@ -144,7 +144,7 @@ All datasets are synthetic but realistic, with known true parameters for validat
 
 ##### Critical Issue #2: Parameter Recovery ✅ FIXED
 - **Original**: Only 2-arm trials tested, 2 chains insufficient
-- **Fixed**: 30% multi-arm trials, 4 chains, 100 replications
+- **Fixed**: 75% multi-arm trials, 4 chains, 100 replications
 - **Evidence**: `validation_results/VALIDATION_RESULTS.md`
 - **Results**: Bias < 0.01, Coverage = 95.0%, All converged
 

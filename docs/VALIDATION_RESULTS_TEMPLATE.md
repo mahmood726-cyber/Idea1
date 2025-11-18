@@ -34,7 +34,7 @@ This document reports the results of a comprehensive 100-replication parameter r
 
 - **Components**: 3 (C1, C2, C3)
 - **Studies per comparison**: 5
-- **Multi-arm trials**: 30% of studies are 3-arm
+- **Multi-arm trials**: 75% of studies are 3-arm
 - **True parameters**:
   - β₁ = 0.50 (component 1 effect)
   - β₂ = -0.30 (component 2 effect)

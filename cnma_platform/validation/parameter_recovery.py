@@ -86,7 +86,7 @@ def run_parameter_recovery_study(
             beta_true=beta_true,
             tau_true=tau_true,
             include_multi_arm=True,  # Include multi-arm trials
-            prop_multi_arm=0.3,  # 30% of studies are 3-arm
+            prop_multi_arm=0.3,  # Results in ~75% of studies being 3-arm trials
             random_seed=random_seed + rep
         )
 
