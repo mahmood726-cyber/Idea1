@@ -276,7 +276,13 @@ def create_figure2_model_comparison():
     additive_se = [0, 0.08, 0.09, 0.12, 0.13, 0.13, 0.15, 0.18]
 
     # Interaction predictions (accounting for synergy/antagonism)
-    interaction_preds = [0, 0.45, 0.52, 1.12, 0.68, 0.89, 1.32, 1.63]
+    # Calculated as: main effects + all pairwise interactions
+    # Index 3 (C+NRT): 0.97 + 0.15 = 1.12
+    # Index 4 (C+Group): 0.73 - 0.05 = 0.68
+    # Index 5 (NRT+Digital): 0.87 + 0.02 = 0.89
+    # Index 6 (C+NRT+Group): 1.25 + (0.15 - 0.05 + 0.12) = 1.25 + 0.22 = 1.47
+    # Index 7 (All Four): 1.60 + (0.15 - 0.05 + 0.08 + 0.12 + 0.02 - 0.08) = 1.60 + 0.24 = 1.84
+    interaction_preds = [0, 0.45, 0.52, 1.12, 0.68, 0.89, 1.47, 1.84]
     interaction_se = [0, 0.08, 0.09, 0.14, 0.15, 0.15, 0.18, 0.21]
 
     x_pos = np.arange(len(interventions))
@@ -305,7 +311,7 @@ def create_figure2_model_comparison():
 
     # Add annotation
     ax_pred.annotate('Note: Differences arise from\ninteraction terms (Panel C)',
-                    xy=(6, 1.32), xytext=(5, 1.7),
+                    xy=(6, 1.47), xytext=(5, 1.7),
                     arrowprops=dict(arrowstyle='->', color='black', lw=1),
                     fontsize=7, style='italic',
                     bbox=dict(boxstyle='round,pad=0.3', fc='yellow', alpha=0.3))
